@@ -1,0 +1,3 @@
+Javascript is not supposed to be inlined in html. Ideally most Javascript should be contained in a single minified .js file and distributed via CDN. The problem is that Javascript most of the time is strongly connected with DOM elements and logically it belongs to the html file. It's very painful to have to switch all the time between.js and html files when you develop relatively AJAX -heavy applications. It's also pain to have a single huge .js file with all the code you need but having multiple .js files is also not an option. With this project we use smarty to solve this problem.
+
+Go to http://scalingexcellence.co.uk/onready/ for more information and the tutorial.

@@ -19,6 +19,7 @@
  * @param array $params parameters
  * <pre>
  * Params:   none
+ *            - ns       (required) - the namespace for this block
  * </pre>
  * @param string $content contents of the block. might include {literal}
  * @param object $smarty smarty object
@@ -33,17 +34,21 @@ function smarty_block_onready($params, $content, &$smarty, &$repeat)
         return;
     }
     
-    $id = str_replace("templates","",
-        preg_replace("/[^a-zA-Z0-9]/", "", $smarty->getTemplateFilepath())
-    );
+    if(!isset($params["ns"]))
+    {
+        $smarty->trigger_error("onready: expected 'ns' parameter", E_USER_NOTICE);
+        return;
+    }
     
-    if (isset($_smarty_block_onready_blocks[$id])) {
-        $_smarty_block_onready_blocks[$id].=trim($content);
+    $ns = preg_replace("/[^a-zA-Z0-9]/", "", $params["ns"]);
+    
+    if (isset($_smarty_block_onready_blocks[$ns])) {
+        $_smarty_block_onready_blocks[$ns].=trim($content);
     }
     else {
-        $_smarty_block_onready_blocks[$id]=trim($content);
+        $_smarty_block_onready_blocks[$ns]=trim($content);
     }
-    $_smarty_block_onready_blocks[$id].="\n";
+    $_smarty_block_onready_blocks[$ns].="\n";
     
     return "";
 }

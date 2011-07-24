@@ -32,15 +32,19 @@ function smarty_function_readyon($params, $template)
         $smarty->trigger_error("readyon: expected 'mode' parameter with value 'embed' or 'call'", E_USER_NOTICE);
         return;
     }
-  
+    
+    if (!$_smarty_block_onready_blocks) {
+        return;
+    }
+    
     if ($params["mode"]=="embed") {
         foreach ($_smarty_block_onready_blocks as $k=>$v) {
-            $endv .=  "    //".$k."\n    " . str_replace("\n", "\n    ", $v) . "\n";
+            $endv .=  "    //sm_on_".$k."()\n    " . str_replace("\n", "\n    ", $v) . "\n";
         }
     }
     else {
         foreach ($_smarty_block_onready_blocks as $k=>$v) {
-            $endv .= "    ".$k."();\n";
+            $endv .= "    sm_on_".$k."();\n";
         }
     }
     return $endv;
